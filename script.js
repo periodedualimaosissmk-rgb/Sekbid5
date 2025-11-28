@@ -5,9 +5,9 @@ document.addEventListener('DOMContentLoaded', function() {
     const tabs = {
         'page-tab': 'page-content',
         'playing-tab': 'playing-content',
-        'market-tab': 'market-content',
+        'sosmed-tab': 'sosmed-content',
         'kritik-tab': 'kritik-content',
-        'game-tab': 'game-content' // TAB GAME
+        'number-tab': 'number-content' // TAB GAME
     };
 
     // ========================
