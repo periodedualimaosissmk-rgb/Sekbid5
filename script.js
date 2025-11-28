@@ -102,12 +102,12 @@ document.addEventListener('DOMContentLoaded', function() {
             tab.classList.remove('bg-gray-700', 'text-gray-300');
             tab.classList.add('bg-purple-600', 'text-white');
 
-            if (tabId === 'market-tab') {
+            if (tabId === 'sosmed-tab') {
                 showMarketPopup();
             }
 
             // otomatis buka popup flappy saat klik tab Game
-            if (tabId === 'game-tab') {
+            if (tabId === 'number-tab') {
                 openFlappyPopup();
             }
         });
