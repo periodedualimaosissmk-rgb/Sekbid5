@@ -108,7 +108,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
             // otomatis buka popup flappy saat klik tab Game
             if (tabId === 'game-tab') {
-                openFlappyPopup();
+                closeFlappyPopup();
             }
         });
     });
