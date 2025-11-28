@@ -214,21 +214,11 @@
             </div>
 
             <!-- Playing Tab Content -->
-             <div class="animate-fade-in">
-                 <!-- Page Tab Content -->
-              <div id="playing-content" class="tab-content">
-                  <div class="space-y-4">
-                     <a href="https://drive.google.com/drive/folders/1mL7yz_VgOgiyP3N3kuSZPQJl8Gmdj9wi?usp=drive_link" class="flex items-center justify-between bg-gray-800 hover:bg-gray-700 rounded-lg p-4 transition-all hover:scale-[1.02]">
-                        <div class="flex items-center">
-                            <div class="bg-blue-500 p-2 rounded-full mr-3">
-                                <i data-feather="users" class="w-5 h-5 text-white"></i>
-                            </div>
-                            <span>HARI MENANAM POHON 2025</span>
-                        </div>
-                        <button class="ripple-container shake-btn bg-purple-600 hover:bg-purple-700 text-white px-3 py-1 rounded-full text-xs font-medium transition-colors">
-                            Klik Here!
-                        </button>
-                    </a> 
+              <div id="playing-content" class="tab-content hidden">
+                <div class="space-y-4">
+                    <audio id="audio-player"></audio>
+                    <div id="song-list" class="space-y-2 max-h-96 overflow-y-auto pr-2">
+                        <!-- Diisi lewat script.js -->
                     </div>
                 </div>
             </div>
