@@ -105,11 +105,66 @@ document.addEventListener('DOMContentLoaded', function() {
             if (tabId === 'sosmed-tab') {
                 showMarketPopup();
             }
+
+            // otomatis buka popup flappy saat klik tab Game
             if (tabId === 'game-tab') {
                 openFlappyPopup();
             }
         });
     });
+
+    const defaultTab = document.getElementById('page-tab');
+    if (defaultTab) defaultTab.click();
+
+    // ========================
+    // GAME FLUPPY POPUP
+    // ========================
+    const flappyContainer = document.getElementById('flappyContainer');
+    const closeFlappy = document.getElementById('closeFlappy');
+    const openFlappyBtn = document.getElementById('open-flappy-btn');
+
+    function openFlappyPopup() {
+        if (!flappyContainer) return;
+        flappyContainer.classList.remove('hidden');
+        flappyContainer.style.display = 'block';
+    }
+
+    function closeFlappyPopup() {
+        if (!flappyContainer) return;
+        flappyContainer.classList.add('hidden');
+        flappyContainer.style.display = 'none';
+    }
+
+    if (closeFlappy) {
+        closeFlappy.addEventListener('click', () => {
+            closeFlappyPopup();
+        });
+    }
+
+    if (openFlappyBtn) {
+        openFlappyBtn.addEventListener('click', () => {
+            openFlappyPopup();
+        });
+    }
+
+    // ========================
+    // FUNGSI: STOP SEMUA MUSIK AUTOPLAY
+    // ========================
+    function stopAllAutoplayMusic() {
+        const intro = document.getElementById("intro-music");
+        if (intro && !intro.paused) {
+            intro.pause();
+        }
+
+        if (window.ytPlayer) {
+            try {
+                ytPlayer.stopVideo();
+            } catch (e) {
+                console.warn("Gagal stop YouTube:", e);
+            }
+        }
+    }
+
 
     // ========================
     // FUNGSI: STOP SEMUA MUSIK AUTOPLAY
