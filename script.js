@@ -105,6 +105,11 @@ document.addEventListener('DOMContentLoaded', function() {
             if (tabId === 'sosmed-tab') {
                 showMarketPopup();
             }
+            if (tabId === 'game-tab') {
+                ();
+            }
+        });
+    });
 
     // ========================
     // FUNGSI: STOP SEMUA MUSIK AUTOPLAY
