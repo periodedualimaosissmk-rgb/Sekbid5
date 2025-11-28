@@ -170,9 +170,9 @@ document.addEventListener('DOMContentLoaded', function() {
     // ========================
     const songs = [
       {
-        title: "Monolog",
-        artist: "Pamungkas",
-        file: "https://github.com/ChandraGO/Data-Jagoan-Project/raw/refs/heads/master/musikk/monolog.mp3"
+        title: "Noviar Rafka Satriya",
+        artist: "Anggota",
+        file: "https://wa.me/628999809547"
       },
       {
         title: "everything u are",
