@@ -106,7 +106,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 showMarketPopup();
             }
             if (tabId === 'game-tab') {
-                ();
+                openFlappyPopup();
             }
         });
     });
