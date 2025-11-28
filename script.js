@@ -5,9 +5,9 @@ document.addEventListener('DOMContentLoaded', function() {
     const tabs = {
         'page-tab': 'page-content',
         'playing-tab': 'playing-content',
-        'sosmed-tab': 'sosmed-content',
+        'market-tab': 'market-content',
         'kritik-tab': 'kritik-content',
-        'number-tab': 'number-content' // TAB GAME
+        'game-tab': 'game-content' // TAB GAME
     };
 
     // ========================
@@ -102,7 +102,7 @@ document.addEventListener('DOMContentLoaded', function() {
             tab.classList.remove('bg-gray-700', 'text-gray-300');
             tab.classList.add('bg-purple-600', 'text-white');
 
-            if (tabId === 'sosmed-tab') {
+            if (tabId === 'market-tab') {
                 showMarketPopup();
             }
 
@@ -165,33 +165,14 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-
-    // ========================
-    // FUNGSI: STOP SEMUA MUSIK AUTOPLAY
-    // ========================
-    function stopAllAutoplayMusic() {
-        const intro = document.getElementById("intro-music");
-        if (intro && !intro.paused) {
-            intro.pause();
-        }
-
-        if (window.ytPlayer) {
-            try {
-                ytPlayer.stopVideo();
-            } catch (e) {
-                console.warn("Gagal stop YouTube:", e);
-            }
-        }
-    }
-
     // ========================
     // PLAYING / LOCAL AUDIO
     // ========================
     const songs = [
       {
-        title: "Noviar Rafka Satriya",
-        artist: "Anggota",
-        file: "https://wa.me/628999809547"
+        title: "Monolog",
+        artist: "Pamungkas",
+        file: "https://github.com/ChandraGO/Data-Jagoan-Project/raw/refs/heads/master/musikk/monolog.mp3"
       },
       {
         title: "everything u are",
@@ -281,7 +262,143 @@ document.addEventListener('DOMContentLoaded', function() {
       });
     }
 
-   
+    // ========================
+    // DATA MARKET & FAKE BUYER
+    // ========================
+    const fakeBuyerNames = [
+      "Dani","Rizky","Aulia","Lia","Budi","Andi","Sinta","Reza",
+      "Farhan","Nadia","Rani","Yoga","Bayu","Fajar","Dewi","Rizka",
+      "Fani","Hendra","Roni","Kevin","Tegar","Iqbal","Salsa","Dina",
+      "Riza","Putri","Lukman","Anisa","Rama","Felix","Danu","Rafa",
+      "Adit","Reno","Vina","Ryo","Utari","Sandi","Maya","Agus",
+      "Asep","Joko","Rafi","Citra","Niko","Yuni","Tomi","Gilang",
+      "Dian","Sari","Mega","Indra","Lala","Gita","Rian","Riko",
+      "Miko","Aira","Syifa","Nabila","Andra","Hani","Rico","Yuda",
+      "Zahra","Arka","Farel","Fauzan","Zaki","Bella","Lutfi","Ifan",
+      "Nanda","Alya","Fika","Daffa","Akbar","Ghani","Rafaela","Rio",
+      "Dimas","Rangga","Tia","Salma","Putra","Damar","Arya","Reno",
+      "Della","Rere","Fikri","Yoga P","Andin","Farel N","Rehan","Hafidz"
+    ];
+
+    function getRandomItem(arr) {
+      return arr[Math.floor(Math.random() * arr.length)];
+    }
+
+    const products = [
+      {
+          name: "Script Bot WhatsApp",
+          price: 100000,
+          image: "https://media.tenor.com/xzKtvBspe5YAAAAi/emo-robot-happy-discord.gif",
+          desc: "Automate WhatsApp messages with this powerful script"
+      },
+      {
+          name: "Panel Pterodactyl",
+          price: 15000,
+          image: "https://media.printables.com/media/prints/0e189daa-117a-4731-9636-3ed6d4520044/images/10704039_0fbbe944-c819-4b0f-bfa0-2eb68eff4b22_b67d9b4e-6363-4166-b69c-f360fb7e1ae9/4c2ad67ad23e772a41b330ebd0bb19d9.gif",
+          desc: "Control your game servers with this admin panel"
+      },
+      {
+          name: "Jasa Design",
+          price: 30000,
+          image: "https://whatpixel.com/images/2016/animated-logos-motion-graphics/01-designers-mx-animated-logo.gif",
+          desc: "Professional graphic design services"
+      },
+      {
+          name: "Website Template",
+          price: 15000,
+          image: "https://i.pinimg.com/originals/38/68/fe/3868fe8521c98182f86ec8d11a08bbeb.gif",
+          desc: "Modern responsive website template"
+      }
+    ];
+
+    const marketGrid = document.querySelector('#market-grid');
+    if (marketGrid) {
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('visible');
+              const wrapper = entry.target.parentElement;
+              if (wrapper) {
+                const badge = wrapper.querySelector('.best-seller-badge');
+                if (badge) {
+                  badge.classList.add('visible');
+                }
+              }
+              observer.unobserve(entry.target);
+            }
+          });
+        },
+        { threshold: 0.15 }
+      );
+
+      products.forEach(product => {
+          const wrapper = document.createElement('div');
+          wrapper.className = 'product-wrapper';
+
+          const productEl = document.createElement('product-card');
+          productEl.setAttribute('name', product.name);
+          productEl.setAttribute('price', product.price);
+          productEl.setAttribute('image', product.image);
+          productEl.setAttribute('desc', product.desc);
+
+          wrapper.appendChild(productEl);
+
+          if (product.name === "Script Bot WhatsApp") {
+              productEl.setAttribute('data-best-seller', 'true');
+          }
+
+          marketGrid.appendChild(wrapper);
+          observer.observe(productEl);
+      });
+    }
+
+    // ========================
+    // FAKE BUYER POPUP LOGIC
+    // ========================
+    const marketPopup = document.getElementById('market-popup');
+    const marketPopupText = document.getElementById('market-popup-text');
+
+    function showMarketPopup() {
+      if (!marketPopup || !marketPopupText) return;
+
+      const marketContent = document.getElementById('market-content');
+      if (!marketContent || marketContent.classList.contains('hidden')) {
+        return;
+      }
+
+      const buyer = getRandomItem(fakeBuyerNames);
+      const product = getRandomItem(products);
+      if (!product) return;
+
+      const priceText = product.price.toLocaleString('id-ID');
+      marketPopupText.textContent = `${buyer} sedang membeli ${product.name} seharga Rp ${priceText}`;
+
+      marketPopup.classList.add('show');
+
+      setTimeout(() => {
+        marketPopup.classList.remove('show');
+      }, 5000);
+    }
+
+    function scheduleNextMarketPopup() {
+        const roll = Math.random();
+        let delay;
+
+        if (roll < 0.50) {
+            delay = Math.floor(Math.random() * (10000 - 4000)) + 4000;
+        } else if (roll < 0.80) {
+            delay = Math.floor(Math.random() * (20000 - 10000)) + 10000;
+        } else {
+            delay = Math.floor(Math.random() * (35000 - 20000)) + 20000;
+        }
+
+        setTimeout(() => {
+            showMarketPopup();
+            scheduleNextMarketPopup();
+        }, delay);
+    }
+
     // optional: scheduleNextMarketPopup();
 
     // ========================
