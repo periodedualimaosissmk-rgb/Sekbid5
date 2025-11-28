@@ -106,47 +106,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 showMarketPopup();
             }
 
-            // otomatis buka popup flappy saat klik tab Game
-            if (tabId === 'number-tab') {
-                openFlappyPopup();
-            }
-        });
-    });
-
-    const defaultTab = document.getElementById('page-tab');
-    if (defaultTab) defaultTab.click();
-
-    // ========================
-    // GAME FLUPPY POPUP
-    // ========================
-    const flappyContainer = document.getElementById('flappyContainer');
-    const closeFlappy = document.getElementById('closeFlappy');
-    const openFlappyBtn = document.getElementById('open-flappy-btn');
-
-    function openFlappyPopup() {
-        if (!flappyContainer) return;
-        flappyContainer.classList.remove('hidden');
-        flappyContainer.style.display = 'block';
-    }
-
-    function closeFlappyPopup() {
-        if (!flappyContainer) return;
-        flappyContainer.classList.add('hidden');
-        flappyContainer.style.display = 'none';
-    }
-
-    if (closeFlappy) {
-        closeFlappy.addEventListener('click', () => {
-            closeFlappyPopup();
-        });
-    }
-
-    if (openFlappyBtn) {
-        openFlappyBtn.addEventListener('click', () => {
-            openFlappyPopup();
-        });
-    }
-
     // ========================
     // FUNGSI: STOP SEMUA MUSIK AUTOPLAY
     // ========================
