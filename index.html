@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RafkaXr Web Id</title>
+    <link rel="icon" type="image/gif" href="https://i.pinimg.com/originals/27/86/58/2786583c5318ed5bdc62ade8a83459fe.gif">
+
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+    <script src="https://unpkg.com/feather-icons"></script>
+    <script src="components/theme-switcher.js"></script>
+    <script src="components/music-player.js"></script>
+    <script src="components/product-card.js"></script>
+</head>
+
+<body class="bg-gray-900 text-gray-100 min-h-screen transition-colors duration-300 relative">
+
+    <!-- =========================
+         INTRO OVERLAY (TRIGGER AUTOPLAY)
+         ========================= -->
+    <div id="intro-overlay" class="flex items-center justify-center"
+         style="position:fixed; inset:0; background:rgba(0,0,0,0.92); z-index:1000000;">
+        <div class="intro-card bg-gray-800 p-6 rounded-xl shadow-xl text-center">
+            <p class="text-xl text-gray-100 mb-4">Apakah kamu sehat?</p>
+
+            <!-- GIF Pikachu -->
+            <img src="https://64.media.tumblr.com/6121ba67b9950d7c42be951b40729cb2/tumblr_inline_pfrr4qDatw1u0axx7_500.gif"
+                 alt="Pikachu Waving"
+                 class="mx-auto mb-4 w-24 h-24">
+
+            <button
+                id="start-btn"
+                class="px-6 py-2 rounded-full bg-purple-600 text-white hover:bg-purple-700 transition-colors ripple-container">
+                Ya
+            </button>
+        </div>
+    </div>
+
+    <!-- =========================
+         ROCKET LOADING OVERLAY – CINEMATIC
+         ========================= -->
+    <div id="loading-screen" style="display:none; opacity:0;">
+        <div class="loader-container">
+            <div class="rocket-container">
+                <!-- Struktur roket -->
+                <div class="structure">
+                    <svg id="rocket-svg" width="224" height="352" viewBox="0 0 59.266662 93.133333"
+                         xmlns="http://www.w3.org/2000/svg" version="1.1">
+                        <g id="layer2" transform="translate(-33.866666,-33.866666)">
+                            <path id="right-wing" d="m 296,336 a 8.0000078,8.0000078 0 0 0 -8,8 v 80 a 8.0000078,7.9999501 0 0 0 1.16406,4.14062 l -0.22461,0.11329 49.32227,49.32031 0.0781,0.0801 0.004,-0.004 A 7.9999934,8.0000655 0 0 0 344,480 a 7.9999934,8.0000655 0 0 0 8,-8 v -80 a 7.9999934,7.9998924 0 0 0 -2.34961,-5.65625 l 0.004,-0.004 -48.00391,-48.00195 -0.004,0.002 A 8.0000078,8.0000078 0 0 0 296,336 Z" transform="scale(0.26458333)" />
+                            <path id="left-wing" d="m 184,336 a 8.0000006,8.0000078 0 0 0 -5.65234,2.3457 l -0.004,-0.002 -47.91797,47.91797 -0.082,0.082 0.004,0.002 A 8.0000078,7.9998924 0 0 0 128,392 v 80 a 8.0000078,8.0000655 0 0 0 8,8 8.0000078,8.0000655 0 0 0 5.65625,-2.34961 l 0.004,0.004 49.40039,-49.40039 -0.22657,-0.11329 A 8.0000006,7.9999501 0 0 0 192,424 v -80 a 8.0000006,8.0000078 0 0 0 -8,-8 z" transform="scale(0.26458333)" />
+                            <path id="rocket-main-part" d="M 239.96875,128 A 111.99996,124.13082 0 0 0 176,240 l 16,200 a 8.0000006,8.0000655 0 0 0 8,8 h 80 a 8.0000078,8.0000655 0 0 0 8,-8 L 304,240 A 111.99996,124.13082 0 0 0 239.96875,128 Z" transform="scale(0.26458333)" />
+                            <path id="nose" d="m 239.96875,128 a 111.99996,124.13082 0 0 0 -47.77344,48 h 95.51953 a 111.99996,124.13082 0 0 0 -47.74609,-48 z" transform="scale(0.26458333)" />
+                            <ellipse id="window-stroke" cx="63.5" cy="59.266663" rx="7.4083333" ry="7.4083328" />
+                            <ellipse id="window-inner" cx="63.499996" cy="59.266666" rx="6.3499975" ry="6.3500061" />
+                            <path id="middle-wing" d="m 240,336 a 7.9999898,8.0000078 0 0 0 -8,8 v 128 a 7.9999898,8.0000078 0 0 0 8,8 7.9999898,8.0000078 0 0 0 8,-8 V 344 a 7.9999898,8.0000078 0 0 0 -8,-8 z" transform="scale(0.26458333)" />
+                            <path id="shadow-layer" d="M 239.96875,128 A 111.99996,124.13082 0 0 0 176,240 l 7.68164,96.01562 a 8.0000006,8.0000078 0 0 0 -5.33398,2.33008 l -0.004,-0.002 -47.91797,47.91797 -0.082,0.082 0.004,0.002 A 8.0000078,7.9998924 0 0 0 128,392 v 80 a 8.0000078,8.0000655 0 0 0 8,8 8.0000078,8.0000655 0 0 0 5.65625,-2.34961 l 0.004,0.004 49.40039,-49.40039 -0.22657,-0.11329 a 8.0000006,7.9999501 0 0 0 0.18946,-0.3496 l 0.0371,0.46289 L 192,440 a 8.0000006,8.0000655 0 0 0 8,8 h 32 v 24 a 7.9999898,8.0000078 0 0 0 8,8 V 336 252 196 128.01758 A 111.99996,124.13082 0 0 0 239.96875,128 Z" transform="scale(0.26458333)" />
+                        </g>
+                    </svg>
+                </div>
+
+                <!-- SEGITIGA JET ASAP DARI UJUNG ROKET -->
+                <div class="rocket-jet"></div>
+
+                <!-- Teks "Loading" -->
+                <div class="text-container">
+                    <h2>Loading</h2>
+                </div>
+
+                <!-- Asap garis kecil di belakang roket -->
+                <div class="smoke">
+                    <span></span><span></span><span></span><span></span><span></span>
+                    <span></span><span></span><span></span><span></span><span></span>
+                </div>
+            </div>
+
+            <!-- Meteor di background -->
+            <div class="meteors-container">
+                <span></span><span></span><span></span><span></span><span></span><span></span>
+            </div>
+
+            <!-- Flare cahaya di sekitar roket -->
+            <div class="launch-flare"></div>
+
+            <!-- Kabut besar yang menutupi layar -->
+            <div class="screen-smoke"></div>
+        </div>
+    </div>
+
+    <!-- Background Video -->
+    <div class="absolute inset-0 -z-10 overflow-hidden pointer-events-none">
+        <video
+            id="bg-video"
+            autoplay
+            muted
+            loop
+            playsinline
+            class="w-full h-full object-cover"
+        >
+            <source src="components/background.mp4" type="video/mp4">
+        </video>
+    </div>
+
+    <!-- Dark overlay -->
+    <div class="absolute inset-0 -z-5 bg-black/75 pointer-events-none"></div>
+
+    <!-- =========================
+         MAIN CONTENT
+         ========================= -->
+    <div class="container mx-auto px-4 py-8 max-w-md">
+        <!-- Profile Section -->
+        <div class="flex flex-col items-center mb-8 animate-fade-in">
+            <div class="relative mb-4">
+                <div class="profile-pic">
+                    <img src="https://cdn.yupra.my.id/yp/1l4rbhph.jpg" alt="Profile" class="w-32 h-32 object-cover shadow-lg">
+                </div>
+                <div class="absolute -bottom-2 left-1/2 transform -translate-x-1/2
+                    bg-blue-500 rounded-full p-1 verification-badge">
+                    <i data-feather="check" class="w-5 h-5 text-white"></i>
+                </div>
+            </div>
+            <h1 class="text-2xl font-bold text-center mb-2">RafkaXr Web Project</h1>
+            <p class="text-gray-400 text-center mb-6">Creator | Marketer | Data Analyst </p>
+        </div>
+
+        <!-- Tabs -->
+        <div class="flex justify-center mb-8 animate-slide-up">
+            <div class="inline-flex rounded-md shadow-sm" role="group">
+                <button id="page-tab" class="px-4 py-2 text-sm font-medium rounded-l-lg bg-purple-600 text-white hover:bg-purple-700 transition-colors">
+                    Page
+                </button>
+                <button id="playing-tab" class="px-4 py-2 text-sm font-medium bg-gray-700 text-gray-300 hover:bg-gray-600 transition-colors">
+                    Playing
+                </button>
+                <button id="market-tab" class="px-4 py-2 text-sm font-medium bg-gray-700 text-gray-300 hover:bg-gray-600 transition-colors">
+                    Market
+                </button>
+                <button id="kritik-tab" class="px-4 py-2 text-sm font-medium bg-gray-700 text-gray-300 hover:bg-gray-600 transition-colors">
+                    Kritik
+                </button>
+                <button id="game-tab" class="px-4 py-2 text-sm font-medium rounded-r-lg bg-gray-700 text-gray-300 hover:bg-gray-600 transition-colors">
+                    Game
+                </button>
+            </div>
+        </div>
+
+        <!-- Tab Content -->
+        <div class="animate-fade-in">
+            <!-- Page Tab Content -->
+            <div id="page-content" class="tab-content">
+                <div class="space-y-4">
+                    <a href="https://whatsapp.com/channel/0029Vb2RkDdKmCPQCZbabd3X" class="flex items-center justify-between bg-gray-800 hover:bg-gray-700 rounded-lg p-4 transition-all hover:scale-[1.02]">
+                        <div class="flex items-center">
+                            <div class="bg-green-500 p-2 rounded-full mr-3">
+                                <i data-feather="users" class="w-5 h-5 text-white"></i>
+                            </div>
+                            <span>Saluran Whatsapp</span>
+                        </div>
+                        <button class="ripple-container shake-btn bg-purple-600 hover:bg-purple-700 text-white px-3 py-1 rounded-full text-xs font-medium transition-colors">
+                            Join Now!
+                        </button>
+                    </a>
+                    
+                    <a href="https://chat.whatsapp.com/Cp2aeGUFhniL2jzt2uKkF1" class="flex items-center justify-between bg-gray-800 hover:bg-gray-700 rounded-lg p-4 transition-all hover:scale-[1.02]">
+                        <div class="flex items-center">
+                            <div class="bg-green-500 p-2 rounded-full mr-3">
+                                <i data-feather="users" class="w-5 h-5 text-white"></i>
+                            </div>
+                            <span>Grup RafkaXr Bot Whatsapp</span>
+                        </div>
+                        <button class="ripple-container shake-btn bg-purple-600 hover:bg-purple-700 text-white px-3 py-1 rounded-full text-xs font-medium transition-colors">
+                            Join Now!
+                        </button>
+                    </a>
+
+                    <a href="https://wa.me/628999809547" class="ripple-container flex items-center bg-gray-800 hover:bg-gray-700 rounded-lg p-4 transition-all hover:scale-[1.02]">
+                        <div class="bg-green-500 p-2 rounded-full mr-3">
+                            <i data-feather="message-circle" class="w-5 h-5 text-white"></i>
+                        </div>
+                        <span>Whatsapp</span>
+                    </a>
+
+                    <a href="https://www.instagram.com/rafkastriya61" class="ripple-container flex items-center bg-gray-800 hover:bg-gray-700 rounded-lg p-4 transition-all hover:scale-[1.02]">
+                        <div class="bg-pink-500 p-2 rounded-full mr-3">
+                            <i data-feather="instagram" class="w-5 h-5 text-white"></i>
+                        </div>
+                        <span>Instagram</span>
+                    </a>
+
+                    <a href="https://www.youtube.com/@rafkasatriya61" class="ripple-container flex items-center bg-gray-800 hover:bg-gray-700 rounded-lg p-4 transition-all hover:scale-[1.02]">
+                        <div class="bg-red-500 p-2 rounded-full mr-3">
+                            <i data-feather="youtube" class="w-5 h-5 text-white"></i>
+                        </div>
+                        <span>YouTube</span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Playing Tab Content -->
+            <div id="playing-content" class="tab-content hidden">
+                <div class="space-y-4">
+                    <audio id="audio-player"></audio>
+                    <div id="song-list" class="space-y-2 max-h-96 overflow-y-auto pr-2">
+                        <!-- Diisi lewat script.js -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Market Tab Content -->
+            <div id="market-content" class="tab-content hidden">
+                <div class="grid gap-4" id="market-grid">
+                    <!-- Products will be populated by JavaScript -->
+                </div>
+            </div>
+
+            <!-- Game Tab Content (hanya info, gamenya di popup) -->
+            <div id="game-content" class="tab-content hidden">
+                <div class="gaming-frame bg-gray-800 rounded-lg p-4 text-center">
+                    <p class="text-sm text-gray-200 mb-2">
+                        Fluppy Game siap dimainkan 🎮
+                    </p>
+                    <p class="text-xs text-gray-400 mb-4">
+                        Saat kamu membuka tab <b>Game</b>, jendela game akan muncul sebagai pop up di tengah layar.<br>
+                        Tekan tombol <b>Tutup</b> di pojok kanan atas pop up untuk kembali.
+                    </p>
+                    <button
+                        id="open-flappy-btn"
+                        class="ripple-container inline-flex items-center px-4 py-2 rounded-full bg-purple-600 hover:bg-purple-700 text-white text-sm font-medium">
+                        Mainkan Fluppy Sekarang
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Kritik Tab Content -->
+        <div id="kritik-content" class="tab-content hidden relative z-20">
+            <form id="kritik-form" class="space-y-4 rounded-lg p-4 bg-gray-900">
+                <div>
+                    <label for="kritik-nama" class="block text-sm mb-1">Nama</label>
+                    <input
+                        id="kritik-nama"
+                        type="text"
+                        class="w-full px-3 py-2 rounded-md bg-gray-900 border border-gray-700 focus:outline-none focus:border-purple-500"
+                        placeholder="Nama kamu"
+                        required
+                    >
+                </div>
+
+                <div>
+                    <label for="kritik-message" class="block text-sm mb-1">Pesan / Kritik</label>
+                    <textarea
+                        id="kritik-message"
+                        rows="4"
+                        class="w-full px-3 py-2 rounded-md bg-gray-900 border border-gray-700 focus:outline-none focus:border-purple-500"
+                        placeholder="Tulis kritik atau saran di sini..."
+                        required
+                    ></textarea>
+                </div>
+
+                <button
+                    type="submit"
+                    class="ripple-container w-full px-4 py-2 rounded-full bg-purple-600 text-white text-sm font-medium hover:bg-purple-700 transition-colors">
+                    Kirim Kritik
+                </button>
+
+                <p id="kritik-status" class="text-sm mt-2"></p>
+            </form>
+        </div>
+
+        <!-- Theme Switcher -->
+        <theme-switcher class="mt-8 flex justify-center"></theme-switcher>
+    </div>
+
+    <!-- POPUP GAME FLUPPY ala referensi (tidak full screen) -->
+    <div id="flappyContainer"
+         class="hidden fixed z-[9999] bg-black rounded-xl overflow-hidden shadow-2xl border border-purple-600"
+         style="top:10%; left:10%; width:80%; height:80%;">
+        <iframe
+            src="https://nebez.github.io/floppybird/"
+            style="width:100%; height:100%; border:none;"
+        ></iframe>
+        <button
+            id="closeFlappy"
+            class="absolute top-3 right-3 px-3 py-1 bg-red-600 hover:bg-red-700 text-white text-xs rounded-md">
+            Tutup
+        </button>
+    </div>
+
+    <!-- POPUP FAKE BUYER MARKET -->
+    <div id="market-popup"
+         class="fixed top-4 left-1/2 -translate-x-1/2 z-[9998] 
+                px-4 py-3 rounded-lg bg-gray-900/90 border border-purple-500
+                shadow-lg flex items-center gap-3
+                opacity-0 pointer-events-none transition-opacity duration-500">
+        <div class="w-8 h-8 rounded-full bg-green-500 flex items-center justify-center text-white text-xl">
+            ✓
+        </div>
+        <div class="text-sm">
+            <div class="font-semibold" id="market-popup-text">
+                <!-- diisi via JS -->
+            </div>
+            <div class="text-xs text-gray-400">
+                Aktivitas pembeli terbaru
+            </div>
+        </div>
+    </div>
+
+    <!-- Script utama -->
+    <script src="components/gaming-background.js"></script>
+    <script src="script.js"></script>
+    <script> feather.replace(); </script>
+
+    <!-- INTRO MUSIC LOCAL -->
+    <audio
+        id="intro-music"
+        src="components/intro.MP3"
+        preload="auto">
+    </audio>
+
+    <script>
+      function startMusic() {
+        const audio = document.getElementById("intro-music");
+        if (!audio) return;
+        audio.currentTime = 0;
+        audio.play().catch(err => {
+          console.error("Gagal play intro.mp3:", err);
+        });
+      }
+
+      function startLoadingSequence() {
+        const loader = document.getElementById("loading-screen");
+        if (!loader) return;
+
+        loader.style.display = "block";
+        loader.style.opacity = "1";
+
+        setTimeout(function () {
+          const structure   = document.querySelector("#loading-screen .structure");
+          const smokeSmall  = document.querySelector("#loading-screen .smoke");
+          const meteors     = document.querySelector("#loading-screen .meteors-container");
+          const text        = document.querySelector("#loading-screen .text-container");
+          const screenSmoke = document.querySelector("#loading-screen .screen-smoke");
+          const launchFlare = document.querySelector("#loading-screen .launch-flare");
+          const rocketJet   = document.querySelector("#loading-screen .rocket-jet");
+
+          if (structure) structure.classList.add("launch");
+          [smokeSmall, meteors, text].forEach(el => el && el.classList.add("fade-out"));
+
+          if (launchFlare) launchFlare.classList.add("boom");
+          if (rocketJet)   rocketJet.classList.add("on");
+          if (screenSmoke) screenSmoke.classList.add("rise");
+        }, 4000);
+
+        setTimeout(function () {
+          if (!loader) return;
+          loader.style.transition = "opacity 0.9s ease";
+          loader.style.opacity = "0";
+
+          setTimeout(function () {
+            loader.style.display = "none";
+          }, 900);
+        }, 5600);
+      }
+
+      document.addEventListener("DOMContentLoaded", function () {
+        const introOverlay = document.getElementById("intro-overlay");
+        const startBtn = document.getElementById("start-btn");
+
+        if (!startBtn) return;
+
+        startBtn.addEventListener("click", function () {
+          if (introOverlay) {
+            introOverlay.style.transition = "opacity 0.3s ease";
+            introOverlay.style.opacity = "0";
+            setTimeout(() => introOverlay.style.display = "none", 300);
+          }
+
+          startMusic();
+          startLoadingSequence();
+        });
+      });
+    </script>
+
+    <!-- POPUP SUCCESS KRITIK -->
+    <div id="popup-success"
+        class="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center 
+                opacity-0 pointer-events-none transition-opacity duration-300 z-[9999]">
+        
+        <div class="bg-gray-900 rounded-xl p-6 text-center shadow-xl w-72 
+                    transform scale-75 transition-transform duration-300" id="popup-box">
+            
+            <div class="text-green-400 text-4xl mb-3">✓</div>
+            <h2 class="text-white text-lg font-semibold mb-1">Berhasil!</h2>
+            <p class="text-gray-300 text-sm">Kritik kamu sudah terkirim yak..!!</p>
+        </div>
+    </div>
+
+</body>
+</html>
