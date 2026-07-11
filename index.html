@@ -345,9 +345,9 @@
         bawah untuk berpindah slide.
       </p>
       <div class="home-stats">
-        <div class="stat"><b>13</b><span>Folder</span></div>
-        <div class="stat"><b>4</b><span>Kontak WA</span></div>
-        <div class="stat"><b>4</b><span>Instagram</span></div>
+        <div class="stat"><b id="count-doc">13</b><span>Folder</span></div>
+        <div class="stat"><b id="count-wa">4</b><span>Kontak WA</span></div>
+        <div class="stat"><b id="count-ig">4</b><span>Instagram</span></div>
       </div>
     </div>
 
@@ -431,7 +431,11 @@
       </a>
     `).join('');
   }
-
+  
+  document.getElementById('count-doc').textContent = docs.length;
+  document.getElementById('count-wa').textContent = wa.length;
+  document.getElementById('count-ig').textContent = ig.length;
+  
   renderRows('doc-rows', docs, 'doc', '📁', 'Buka');
   renderRows('wa-rows', wa, 'wa', '<img src="https://cdn.simpleicons.org/whatsapp/25D366" alt="WhatsApp">', 'Chat');
   renderRows('ig-rows', ig, 'ig', '<img src="https://cdn.simpleicons.org/instagram/E1306C" alt="Instagram">', 'Lihat');
