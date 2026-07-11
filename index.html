@@ -63,6 +63,12 @@
     width:100%; height:100%;
     object-fit:cover;
   }
+  @media (max-width:700px){
+    /* Video 16:9 di layar HP yang memanjang (potrait) akan sangat ter-crop/zoom
+       kalau dipaksa "cover" — jadi di HP kita pakai "contain" agar seluruh
+       video kelihatan utuh, dengan latar polos di sisa ruang. */
+    #intro-video{ object-fit:contain; background:#04140a; }
+  }
   #intro-skip{
     position:absolute;
     bottom:28px; left:50%; transform:translateX(-50%);
