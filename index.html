@@ -230,11 +230,7 @@
     font-size:10px;color:var(--muted);
     min-width:22px;
   }
-  .row .icon{
-    width:32px;height:32px;border-radius:8px;
-    display:flex;align-items:center;justify-content:center;
-    flex-shrink:0;font-size:14px;
-  }
+  .row .icon{width:18px;height:18px;object-fit:contain;}
   .icon.doc{background:rgba(0,162,21,0.35); color:#a4f28c;}
   .icon.wa{background:rgba(108,228,2,0.28); color:#c3f77a;}
   .icon.ig{background:rgba(255,237,0,0.22); color:#ffed00;}
@@ -432,8 +428,8 @@
   }
 
   renderRows('doc-rows', docs, 'doc', '📁', 'Buka');
-  renderRows('wa-rows', wa, 'wa', '💬', 'Chat');
-  renderRows('ig-rows', ig, 'ig', '📷', 'Lihat');
+  renderRows('wa-rows', wa, 'wa', '<img src="https://cdn.simpleicons.org/whatsapp/25D366" alt="WhatsApp">', 'Chat');
+  renderRows('ig-rows', ig, 'ig', '<img src="https://cdn.simpleicons.org/instagram/E1306C" alt="Instagram">', 'Lihat');
 
   const tabs = document.querySelectorAll('.tab');
   const slides = document.querySelectorAll('.slide');
