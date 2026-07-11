@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Arsip Dokumentasi — Sekbid 5</title>
+<link rel="icon" href="https://cdn.yupra.my.id/yp/49ajmwqj.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=IBM+Plex+Mono:wght@400;500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#060f08;
+    --panel:#0e2013;
+    --panel-2:#15301c;
+    --paper:#f3fbe9;
+    --muted:#9fbb9b;
+    --green:#00a215;
+    --lime:#6ce402;
+    --yellow:#ffed00;
+    --line: rgba(243,251,233,0.16);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--ink);
+    color:var(--paper);
+    font-family:'Inter',sans-serif;
+    min-height:100vh;
+    display:flex;
+    align-items:flex-start;
+    justify-content:center;
+    padding:32px 16px 60px;
+    position:relative;
+    overflow-x:hidden;
+  }
+  .display{font-family:'Fraunces',serif;}
+  .mono{font-family:'IBM Plex Mono',monospace; letter-spacing:0.04em;}
+
+  /* ---------- PHOTO BACKGROUND ---------- */
+  .bg-photo{
+    position:fixed; inset:0; z-index:-2;
+    background-image:
+      radial-gradient(circle at 15% 10%, rgba(108,228,2,0.12), transparent 45%),
+      radial-gradient(circle at 85% 90%, rgba(0,162,21,0.18), transparent 50%),
+      url('media/background.png');
+    background-size:cover;
+    background-position:center;
+    background-repeat:no-repeat;
+    background-color:var(--ink);
+  }
+  .bg-overlay{position:fixed; inset:0; z-index:-1; background:rgba(6,15,8,0.6); pointer-events:none;}
+
+  /* ---------- INTRO OVERLAY (LOGO ANIMATION) ---------- */
+  #intro-overlay{
+    position:fixed; inset:0; z-index:100000;
+    background:#04140a;
+    display:flex; align-items:center; justify-content:center; flex-direction:column;
+    transition:opacity .6s ease;
+  }
+  #intro-overlay video{
+    max-width:min(80vw, 420px);
+    max-height:60vh;
+  }
+  #intro-skip{
+    margin-top:22px;
+    font-size:12px;
+    color:var(--muted);
+    border:1px solid var(--line);
+    background:transparent;
+    padding:8px 18px;
+    border-radius:999px;
+    cursor:pointer;
+    font-family:'Inter',sans-serif;
+  }
+  #intro-skip:hover{border-color:var(--yellow); color:var(--yellow);}
+  #intro-overlay.hide{opacity:0; pointer-events:none;}
+
+  .card{
+    width:100%;
+    max-width:480px;
+    position:relative;
+  }
+
+  /* ---------- HEADER / SEAL ---------- */
+  .header{
+    text-align:center;
+    padding:34px 20px 22px;
+    position:relative;
+  }
+  .seal{
+    width:76px;height:76px;border-radius:50%;
+    margin:0 auto 14px;
+    border:2px dashed var(--yellow);
+    display:flex;align-items:center;justify-content:center;
+    position:relative;
+    background:var(--panel);
+    transform:rotate(-6deg);
+  }
+  .seal img{width:58px;height:58px;border-radius:50%;object-fit:cover;}
+  .eyebrow{
+    font-size:11px;color:var(--lime);
+    text-transform:uppercase;
+    display:block;margin-bottom:10px;
+  }
+  h1.display{
+    font-size:26px;font-weight:700;margin:0 0 6px;line-height:1.25;
+    color:var(--paper);
+  }
+  .subtitle{color:var(--muted);font-size:13px;margin:0;}
+
+  /* ---------- FOLDER TABS ---------- */
+  .tabs{
+    display:flex;
+    gap:4px;
+    padding:0 12px;
+    position:relative;
+    z-index:2;
+  }
+  .tab{
+    flex:1;
+    text-align:center;
+    padding:12px 4px 10px;
+    font-size:11px;
+    cursor:pointer;
+    color:var(--muted);
+    background:var(--panel);
+    border:1px solid var(--line);
+    border-bottom:none;
+    border-radius:10px 10px 0 0;
+    transform:translateY(6px);
+    transition:.25s ease;
+    user-select:none;
+  }
+  .tab .num{display:block;font-size:14px;margin-bottom:2px;}
+  .tab.active{
+    color:var(--ink);
+    background:var(--yellow);
+    transform:translateY(0);
+    border-color:var(--yellow);
+  }
+  .tab.active .num{color:var(--ink);}
+  .tab:not(.active):hover{color:var(--paper); transform:translateY(2px);}
+
+  /* ---------- STAGE ---------- */
+  .stage{
+    background:var(--panel-2);
+    border:1px solid var(--line);
+    border-radius:0 14px 14px 14px;
+    padding:22px 18px 20px;
+    min-height:360px;
+    position:relative;
+    overflow:hidden;
+  }
+  .slide{display:none; animation:fade .4s ease;}
+  .slide.active{display:block;}
+  @keyframes fade{ from{opacity:0; transform:translateY(6px);} to{opacity:1; transform:translateY(0);} }
+
+  .slide-title{
+    display:flex;align-items:baseline;justify-content:space-between;
+    margin-bottom:14px;
+    border-bottom:1px dashed var(--line);
+    padding-bottom:10px;
+  }
+  .slide-title h2{margin:0;font-size:17px;font-weight:600;}
+  .slide-title .tag{color:var(--lime);}
+
+  /* ---------- INDEX ROWS ---------- */
+  .rows{display:flex;flex-direction:column;gap:8px; max-height:300px; overflow-y:auto; padding-right:2px;}
+  .rows::-webkit-scrollbar{width:5px;}
+  .rows::-webkit-scrollbar-thumb{background:var(--line); border-radius:4px;}
+
+  .row{
+    display:flex;align-items:center;gap:12px;
+    background:var(--panel);
+    border:1px solid var(--line);
+    border-radius:10px;
+    padding:11px 12px;
+    text-decoration:none;
+    color:var(--paper);
+    transition:.2s ease;
+  }
+  .row:hover{border-color:var(--yellow); transform:translateX(2px);}
+  .row .idx{
+    font-size:10px;color:var(--muted);
+    min-width:22px;
+  }
+  .row .icon{
+    width:32px;height:32px;border-radius:8px;
+    display:flex;align-items:center;justify-content:center;
+    flex-shrink:0;font-size:14px;
+  }
+  .icon.doc{background:rgba(0,162,21,0.35); color:#a4f28c;}
+  .icon.wa{background:rgba(108,228,2,0.28); color:#c3f77a;}
+  .icon.ig{background:rgba(255,237,0,0.22); color:#ffed00;}
+  .row .label{flex:1; font-size:13px; line-height:1.3;}
+  .row .go{font-size:10px; color:var(--lime); white-space:nowrap;}
+
+  /* ---------- HOME SLIDE ---------- */
+  .home-stats{display:flex;gap:10px;margin-top:16px;}
+  .stat{
+    flex:1;background:var(--panel);border:1px solid var(--line);
+    border-radius:10px;padding:12px 8px;text-align:center;
+  }
+  .stat b{display:block;font-family:'Fraunces',serif;font-size:20px;color:var(--yellow);}
+  .stat span{font-size:10px;color:var(--muted); text-transform:uppercase;}
+  .home-desc{font-size:13px;line-height:1.7;color:var(--muted); margin-top:14px;}
+
+  /* ---------- FOOTER NAV ---------- */
+  .footer-nav{
+    display:flex;align-items:center;justify-content:space-between;
+    padding:16px 6px 0;
+  }
+  .arrow{
+    width:38px;height:38px;border-radius:50%;
+    border:1px solid var(--line);background:var(--panel);
+    color:var(--paper);font-size:16px;cursor:pointer;
+    display:flex;align-items:center;justify-content:center;
+    transition:.2s ease;
+  }
+  .arrow:hover{border-color:var(--yellow); color:var(--yellow);}
+  .progress{font-size:12px;color:var(--muted);}
+  .progress b{color:var(--paper);}
+
+  @media (max-width:380px){
+    .tab{font-size:10px;padding:10px 2px 8px;}
+    h1.display{font-size:22px;}
+  }
+</style>
+</head>
+<body>
+
+<!-- INTRO LOGO ANIMATION -->
+<div id="intro-overlay">
+  <video id="intro-video" src="animasi.mp4" autoplay muted playsinline></video>
+  <button id="intro-skip">Lewati →</button>
+</div>
+
+<!-- FOTO BACKGROUND (letakkan file di media/background.png) -->
+<div class="bg-photo"></div>
+<div class="bg-overlay"></div>
+
+<div class="card">
+
+  <div class="header">
+    <div class="seal"><img src="https://cdn.yupra.my.id/yp/49ajmwqj.jpg" alt="Sekbid 5"></div>
+    <span class="eyebrow mono">SMKS Tunas Harapan Pasarkemis · Arsip Resmi</span>
+    <h1 class="display">Dokumentasi Sekbid 5</h1>
+    <p class="subtitle">Satu tempat untuk tautan, kontak, dan sosial media anggota</p>
+  </div>
+
+  <div class="tabs" role="tablist">
+    <div class="tab active" data-slide="0"><span class="num mono">01</span>Beranda</div>
+    <div class="tab" data-slide="1"><span class="num mono">02</span>Tautan</div>
+    <div class="tab" data-slide="2"><span class="num mono">03</span>WhatsApp</div>
+    <div class="tab" data-slide="3"><span class="num mono">04</span>Instagram</div>
+  </div>
+
+  <div class="stage">
+
+    <!-- SLIDE 1 — HOME -->
+    <div class="slide active" data-slide="0">
+      <div class="slide-title">
+        <h2>Selamat datang</h2>
+        <span class="tag mono">01/04</span>
+      </div>
+      <p class="home-desc">
+        Halaman ini menyimpan seluruh arsip kegiatan Sekbid 5 —
+        mulai dari dokumentasi acara, kontak pengurus, hingga akun
+        Instagram anggota. Geser tab di atas atau gunakan panah di
+        bawah untuk berpindah slide.
+      </p>
+      <div class="home-stats">
+        <div class="stat"><b>13</b><span>Folder</span></div>
+        <div class="stat"><b>4</b><span>Kontak WA</span></div>
+        <div class="stat"><b>4</b><span>Instagram</span></div>
+      </div>
+    </div>
+
+    <!-- SLIDE 2 — LINKS -->
+    <div class="slide" data-slide="1">
+      <div class="slide-title">
+        <h2>Tautan Dokumentasi</h2>
+        <span class="tag mono">02/04</span>
+      </div>
+      <div class="rows" id="doc-rows"></div>
+    </div>
+
+    <!-- SLIDE 3 — WHATSAPP -->
+    <div class="slide" data-slide="2">
+      <div class="slide-title">
+        <h2>Nomor WhatsApp</h2>
+        <span class="tag mono">03/04</span>
+      </div>
+      <div class="rows" id="wa-rows"></div>
+    </div>
+
+    <!-- SLIDE 4 — INSTAGRAM -->
+    <div class="slide" data-slide="3">
+      <div class="slide-title">
+        <h2>Instagram Anggota</h2>
+        <span class="tag mono">04/04</span>
+      </div>
+      <div class="rows" id="ig-rows"></div>
+    </div>
+
+  </div>
+
+  <div class="footer-nav">
+    <div class="arrow" id="prev-btn">←</div>
+    <div class="progress mono"><b id="cur-num">01</b> / 04</div>
+    <div class="arrow" id="next-btn">→</div>
+  </div>
+
+</div>
+
+<script>
+  const docs = [
+    ["Pesantren Kilat Day 1", "https://drive.google.com/drive/folders/1OmjDmSsEGb4FlFweY1EZCxpeQGLdEqV_?usp=sharing"],
+    ["Ujian Kompetensi Keahlian 2026", "https://drive.google.com/drive/folders/1fJuHNVGAlr7D_1av6m4DZBaOG14A7dWw?usp=sharing"],
+    ["Isra Mi'raj 2026", "https://drive.google.com/drive/folders/1_PaGLiFT23yWtUlX3M9PGg_TSx5Egl0a"],
+    ["Apel Pagi dan Senam Ceria", "https://drive.google.com/drive/folders/1ZAA3DTjwPUP1w_0hf-uF60SS1ljDWfFa?usp=sharing"],
+    ["Perjusa Kenaikan Pangkat", "https://drive.google.com/drive/folders/10CxIYAfBoSslSuwKgEYY7JY9JoDv5SHE?usp=sharing"],
+    ["Penilaian Seni Tari Kelas 10", "https://drive.google.com/drive/folders/1XuKbwQItFwLU4GaWrKg7Ns18wSz95ZG6?usp=sharing"],
+    ["Classmeeting Day 3", "https://drive.google.com/drive/folders/1nLvKIKQDsedx0tyEYZkK18_KEhIkzZhU?usp=sharing"],
+    ["Classmeeting Day 2", "https://drive.google.com/drive/folders/1dTFoxgmFazhjaz4eaA1K0JYcwHPN9MdC?usp=sharing"],
+    ["Classmeeting Day 1", "https://drive.google.com/drive/folders/1efl7aOPwORKP0rsJ5J1qcefhnCCvzj6f?usp=sharing"],
+    ["Hari Menanam Pohon 2025", "https://drive.google.com/drive/folders/1mL7yz_VgOgiyP3N3kuSZPQJl8Gmdj9wi?usp=drive_link"],
+    ["Hari Guru Nasional 2025", "https://drive.google.com/drive/folders/1tvzbsoWBrmTKB83Jn2tY13ZWk_ahpQLF"],
+    ["Hari Pahlawan Nasional 2025", "https://drive.google.com/drive/folders/1KHwyATY2E0NeqLiXV2cERdzkABajlo-X"],
+    ["Hari Sumpah Pemuda 2025", "https://drive.google.com/drive/folders/1q9j8D6bGCjKLjQbQQPLrt8JJb-a5zskg?usp=sharing"],
+  ];
+
+  const wa = [
+    ["Noviar Rafka Satriya", "https://wa.me/628999809547"],
+    ["Dina Anggraini", "https://wa.me/6288289681778"],
+    ["Siti Husniyah", "https://wa.me/6285777507961"],
+    ["M. Rain Hariri", "https://wa.me/6288291677059"],
+  ];
+
+  const ig = [
+    ["Noviar Rafka Satriya", "https://www.instagram.com/rafkastriya61"],
+    ["Dina Anggraini", "https://www.instagram.com/ymistlefoe_"],
+    ["Siti Husniyah", "https://www.instagram.com/nnvy.cy"],
+    ["M. Rain Hariri", "https://www.instagram.com/muhammadrainhariri"],
+  ];
+
+  function renderRows(containerId, data, iconClass, iconChar, ctaText){
+    const el = document.getElementById(containerId);
+    el.innerHTML = data.map((item, i) => `
+      <a class="row" href="${item[1]}" target="_blank" rel="noopener">
+        <span class="idx mono">${String(i+1).padStart(2,'0')}</span>
+        <span class="icon ${iconClass}">${iconChar}</span>
+        <span class="label">${item[0]}</span>
+        <span class="go mono">${ctaText} →</span>
+      </a>
+    `).join('');
+  }
+
+  renderRows('doc-rows', docs, 'doc', '📁', 'Buka');
+  renderRows('wa-rows', wa, 'wa', '💬', 'Chat');
+  renderRows('ig-rows', ig, 'ig', '📷', 'Lihat');
+
+  const tabs = document.querySelectorAll('.tab');
+  const slides = document.querySelectorAll('.slide');
+  const curNum = document.getElementById('cur-num');
+  let current = 0;
+  const total = slides.length;
+
+  function goTo(index){
+    current = (index + total) % total;
+    tabs.forEach(t => t.classList.toggle('active', +t.dataset.slide === current));
+    slides.forEach(s => s.classList.toggle('active', +s.dataset.slide === current));
+    curNum.textContent = String(current+1).padStart(2,'0');
+  }
+
+  tabs.forEach(t => t.addEventListener('click', () => goTo(+t.dataset.slide)));
+  document.getElementById('prev-btn').addEventListener('click', () => goTo(current-1));
+  document.getElementById('next-btn').addEventListener('click', () => goTo(current+1));
+  document.addEventListener('keydown', (e) => {
+    if(e.key === 'ArrowRight') goTo(current+1);
+    if(e.key === 'ArrowLeft') goTo(current-1);
+  });
+
+  /* ---------- INTRO LOGO ANIMATION HANDLING ---------- */
+  const introOverlay = document.getElementById('intro-overlay');
+  const introVideo = document.getElementById('intro-video');
+  const introSkip = document.getElementById('intro-skip');
+
+  function closeIntro(){
+    introOverlay.classList.add('hide');
+    setTimeout(() => introOverlay.style.display = 'none', 650);
+  }
+
+  introVideo.addEventListener('ended', closeIntro);
+  introVideo.addEventListener('error', closeIntro); // animasi.mp4 belum ada / gagal dimuat
+  introSkip.addEventListener('click', closeIntro);
+  // Animasi logo ±8 detik — beri sedikit buffer lalu tetap lanjut otomatis
+  setTimeout(closeIntro, 8600);
+</script>
+
+</body>
+</html>
