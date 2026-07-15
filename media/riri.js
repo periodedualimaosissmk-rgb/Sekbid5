@@ -2,7 +2,7 @@
 // Foto: pastikan file fotorain.jpg ditaruh di folder media/
 window.BIODATA_RAIN = {
   nama: "M. Rain Hariri",
-  foto: "fotorain.jpg",
+  foto: "fotoriri.jpeg",
 
   jabatan: "Anggota Sekbid 5",
   kelas: "XI TKRO",
