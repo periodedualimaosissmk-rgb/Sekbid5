@@ -683,7 +683,7 @@ document.addEventListener('keydown', (e) => {
     // tinggal tambah/hapus key di file biodata orangnya, tidak perlu edit di sini.
     const fields = Object.entries(data).filter(([k]) => k !== 'foto' && k !== 'nama');
     content.innerHTML = `
-      ${fotoSrc ? <img class="bio-photo" src="${fotoSrc}" alt="${data.nama || ''}" onerror="this.style.display='none'" onclick="openLightbox('${fotoSrc}', '${(data.nama || '').replace(/'/g,"\\'")}')"> : ''}
+       ${fotoSrc ? `<img class="bio-photo" src="${fotoSrc}" alt="${data.nama || ''}" onerror="this.style.display='none'" onclick="openLightbox('${fotoSrc}', '${(data.nama || '').replace(/'/g,"\\'")}')">` : ''}
       <h3 class="bio-name display">${data.nama || ''}</h3>
       <div class="bio-fields">
         ${fields.map(([k, v]) => `
