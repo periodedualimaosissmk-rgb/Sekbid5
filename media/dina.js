@@ -2,7 +2,7 @@
 // Foto: pastikan file fotodina.jpg ditaruh di folder media/
 window.BIODATA_DINA = {
   nama: "Dina Anggraini",
-  foto: "fotodina.jpg",
+  foto: "fotodina.jpeg",
 
   jabatan: "Anggota OSIS Sekbid 5",
   kelas: "XI MP",
