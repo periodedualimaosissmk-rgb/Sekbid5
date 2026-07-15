@@ -347,6 +347,41 @@
   .bio-label{ font-size:9px; color:var(--lime); text-transform:uppercase; }
   .bio-value{ font-size:12px; color:var(--paper); line-height:1.4; }
   .bio-loading{ font-size:12px; color:var(--muted); }
+  .bio-photo{
+  cursor:pointer;
+  transition:transform .2s ease, border-color .2s ease;
+}
+.bio-photo:hover{ transform:scale(1.03); border-color:var(--yellow); }
+
+/* ---------- PHOTO LIGHTBOX ---------- */
+.photo-lightbox{
+  position:fixed; inset:0; z-index:2000;
+  background:rgba(4,10,6,0.9);
+  display:flex; align-items:center; justify-content:center;
+  padding:40px 20px;
+  opacity:0; pointer-events:none;
+  transition:opacity .25s ease;
+}
+.photo-lightbox.open{ opacity:1; pointer-events:auto; }
+.photo-lightbox img{
+  max-width:100%; max-height:100%;
+  object-fit:contain;
+  border-radius:12px;
+  border:1px solid rgba(108,228,2,0.4);
+  box-shadow:0 10px 40px rgba(0,0,0,0.5);
+  transform:scale(0.94);
+  transition:transform .25s ease;
+}
+.photo-lightbox.open img{ transform:scale(1); }
+.lightbox-close{
+  position:absolute; top:18px; right:18px;
+  width:38px;height:38px;border-radius:50%;
+  border:1px solid rgba(243,251,233,0.4);
+  background:rgba(6,20,10,0.6);
+  color:var(--paper); font-size:16px; cursor:pointer;
+  display:flex; align-items:center; justify-content:center;
+}
+.lightbox-close:hover{ border-color:var(--yellow); color:var(--yellow); }
 
   /* ---------- HOME SLIDE ---------- */
   .home-stats{display:flex;gap:10px;margin-top:16px;}
@@ -427,6 +462,12 @@
 <!-- MUSIK LATAR (letakkan file music.mp3 sejajar index.html) -->
 <audio id="bg-music" src="media/mars tunas.mpeg" loop></audio>
 <button id="music-toggle" aria-label="Musik latar">🔊</button>
+
+<!-- LIGHTBOX FOTO BIODATA (muncul saat foto anggota diklik) -->
+<div class="photo-lightbox" id="photo-lightbox">
+  <button class="lightbox-close" id="lightbox-close">✕</button>
+  <img id="lightbox-img" src="" alt="">
+</div>
 
 <div class="card">
   <div class="color-bar"></div>
@@ -569,6 +610,26 @@
     });
   }
 
+  /* ---------- LIGHTBOX FOTO ---------- */
+const photoLightbox = document.getElementById('photo-lightbox');
+const lightboxImg = document.getElementById('lightbox-img');
+
+function openLightbox(src, alt){
+  lightboxImg.src = src;
+  lightboxImg.alt = alt || '';
+  photoLightbox.classList.add('open');
+}
+function closeLightbox(){
+  photoLightbox.classList.remove('open');
+}
+document.getElementById('lightbox-close').addEventListener('click', closeLightbox);
+photoLightbox.addEventListener('click', (e) => {
+  if(e.target === photoLightbox) closeLightbox(); // klik area gelap di luar foto
+});
+document.addEventListener('keydown', (e) => {
+  if(e.key === 'Escape') closeLightbox();
+});
+  
   function loadBiodataScript(person, callback){
     if(window[person.varName]){ callback(window[person.varName]); return; }
     const existing = document.querySelector(`script[data-bio="${person.id}"]`);
@@ -622,7 +683,7 @@
     // tinggal tambah/hapus key di file biodata orangnya, tidak perlu edit di sini.
     const fields = Object.entries(data).filter(([k]) => k !== 'foto' && k !== 'nama');
     content.innerHTML = `
-      ${fotoSrc ? `<img class="bio-photo" src="${fotoSrc}" alt="${data.nama || ''}" onerror="this.style.display='none'">` : ''}
+      ${fotoSrc ? <img class="bio-photo" src="${fotoSrc}" alt="${data.nama || ''}" onerror="this.style.display='none'" onclick="openLightbox('${fotoSrc}', '${(data.nama || '').replace(/'/g,"\\'")}')"> : ''}
       <h3 class="bio-name display">${data.nama || ''}</h3>
       <div class="bio-fields">
         ${fields.map(([k, v]) => `
