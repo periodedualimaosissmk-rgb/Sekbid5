@@ -4,7 +4,7 @@ window.BIODATA_RAIN = {
   nama: "M. Rain Hariri",
   foto: "fotoriri.jpeg",
 
-  jabatan: "Anggota Sekbid 5",
+  jabatan: "Anggota OSIS Sekbid 5",
   kelas: "XI TKRO",
   "tanggal lahir": "30 April",
 
