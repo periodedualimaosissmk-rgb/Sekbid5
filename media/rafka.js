@@ -11,7 +11,7 @@ window.BIODATA_RAFKA = {
   nama: "Noviar Rafka Satriya",
   foto: "fotorafka.jpg",
 
-  jabatan: "Anggota Sekbid 5",
+  jabatan: "Anggota OSIS Sekbid 5",
   kelas: "XI TKR",
   "tanggal lahir": "10 November 2009",
 
